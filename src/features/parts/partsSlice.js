@@ -22,3 +22,7 @@ const partsSlice = createSlice({
     },
   },
 });
+
+export const { setArticle, setSelectedBrand } = partsSlice.actions;
+
+export default partsSlice.reducer;
