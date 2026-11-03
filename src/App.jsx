@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import PartSearch from "./features/parts/components/PartSearch";
 import BrandList from "./features/parts/components/BrandList";
+import OffersList from "./features/parts/components/OffersList";
 
 function App() {
   const article = useSelector((state) => state.parts.article);
@@ -12,6 +13,8 @@ function App() {
 
       <PartSearch />
       <BrandList />
+      <OffersList />
+
       <p className="mt-3">
         Выбранный производитель: {selectedBrand || "Не выбран"}
       </p>
