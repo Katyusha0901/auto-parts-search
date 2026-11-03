@@ -20,9 +20,18 @@ const partsSlice = createSlice({
     setSelectedBrand: (state, action) => {
       state.selectedBrand = action.payload;
     },
+
+    setBrands: (state, action) => {
+      state.brands = action.payload;
+    },
+
+    setOffers: (state, action) => {
+      state.offers = action.payload;
+    },
   },
 });
 
-export const { setArticle, setSelectedBrand } = partsSlice.actions;
+export const { setArticle, setSelectedBrand, setBrands, setOffers } =
+  partsSlice.actions;
 
 export default partsSlice.reducer;
