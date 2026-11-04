@@ -1,7 +1,18 @@
 import { useSelector } from "react-redux";
 
 function OffersList() {
+  const selectedBrand = useSelector((state) => state.parts.selectedBrand);
+  const isOffersLoaded = useSelector((state) => state.parts.isOffersLoaded);
   const offers = useSelector((state) => state.parts.offers);
+  const offersError = useSelector((state) => state.parts.offersError);
+
+  if (!isOffersLoaded) {
+    return null;
+  }
+
+  if (offers.length === 0) {
+    return <p className="mt-4">Предложения не найдены</p>;
+  }
 
   return (
     <table className="table table-striped mt-4">

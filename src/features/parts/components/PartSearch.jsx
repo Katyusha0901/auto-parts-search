@@ -4,55 +4,61 @@ import {
   setBrands,
   setSelectedBrand,
   setOffers,
-  setLoading,
-  setError,
+  setBrandsLoading,
+  setBrandsError,
+  setOffersError,
 } from "../partsSlice";
 import { fetchBrands } from "../partsApi";
 
 function PartSearch() {
   const dispatch = useDispatch();
   const article = useSelector((state) => state.parts.article);
-  const isLoading = useSelector((state) => state.parts.isLoading);
-  const error = useSelector((state) => state.parts.error);
+  const isBrandsLoading = useSelector((state) => state.parts.isBrandsLoading);
+  const brandsError = useSelector((state) => state.parts.brandsError);
 
   const handleSearch = async () => {
     dispatch(setSelectedBrand(null));
     dispatch(setOffers([]));
     dispatch(setBrands([]));
-    dispatch(setError(null));
-    dispatch(setLoading(true));
-
-    const brands = await fetchBrands(article);
+    dispatch(setBrandsError(null));
+    dispatch(setOffersError(null));
+    dispatch(setBrandsLoading(true));
 
     try {
       const brands = await fetchBrands(article);
       dispatch(setBrands(brands));
     } catch (error) {
-      dispatch(setError("Не удалось загрузить производителей"));
+      dispatch(setBrandsError("Не удалось загрузить производителей"));
       console.error(error);
     } finally {
-      dispatch(setLoading(false));
+      dispatch(setBrandsLoading(false));
     }
-    console.log("Полученные производители:", brands);
   };
 
   return (
-    <div className="d-flex gap-2">
-      <input
-        type="text"
-        className="form-control"
-        placeholder="Введите артикул"
-        value={article}
-        onChange={(event) => dispatch(setArticle(event.target.value))}
-      />
+    <div>
+      <div className="d-flex gap-2">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Введите артикул"
+          value={article}
+          onChange={(event) => dispatch(setArticle(event.target.value))}
+        />
 
-      <button type="button" className="btn btn-primary" onClick={handleSearch}>
-        {isLoading ? "Загрузка..." : "Найти"}
-      </button>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleSearch}
+          disabled={isBrandsLoading}
+        >
+          {isBrandsLoading ? "Загрузка..." : "Найти"}
+        </button>
+      </div>
 
-      {error && (
+      {brandsError && (
         <div className="alert alert-danger mt-3" role="alert">
-          {error}
+          {brandsError}
         </div>
       )}
     </div>

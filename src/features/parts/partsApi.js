@@ -1,7 +1,10 @@
 export const fetchBrands = async (article) => {
   const mockBrands = ["Bosch", "MANN", "Valeo"];
 
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
   return mockBrands;
+  // throw new Error("Сервер недоступен");
 };
 
 export const fetchOffers = async (article, brand) => {
@@ -22,5 +25,9 @@ export const fetchOffers = async (article, brand) => {
     },
   ];
 
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
   return mockOffers;
+  //   return [];
+  //   throw new Error("Ошибка загрузки предложений");
 };

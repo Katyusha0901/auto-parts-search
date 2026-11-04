@@ -5,8 +5,11 @@ const initialState = {
   brands: [],
   selectedBrand: null,
   offers: [],
-  isLoading: false,
-  error: null,
+  isBrandsLoading: false,
+  isOffersLoading: false,
+  brandsError: null,
+  offersError: null,
+  isOffersLoaded: false,
 };
 
 const partsSlice = createSlice({
@@ -29,12 +32,24 @@ const partsSlice = createSlice({
       state.offers = action.payload;
     },
 
-    setLoading: (state, action) => {
-      state.isLoading = action.payload;
+    setBrandsLoading: (state, action) => {
+      state.isBrandsLoading = action.payload;
     },
 
-    setError: (state, action) => {
-      state.error = action.payload;
+    setOffersLoading: (state, action) => {
+      state.isOffersLoading = action.payload;
+    },
+
+    setBrandsError: (state, action) => {
+      state.brandsError = action.payload;
+    },
+
+    setOffersError: (state, action) => {
+      state.offersError = action.payload;
+    },
+
+    setOffersLoaded: (state, action) => {
+      state.isOffersLoaded = action.payload;
     },
   },
 });
@@ -44,8 +59,11 @@ export const {
   setSelectedBrand,
   setBrands,
   setOffers,
-  setLoading,
-  setError,
+  setBrandsLoading,
+  setOffersLoading,
+  setBrandsError,
+  setOffersError,
+  setOffersLoaded,
 } = partsSlice.actions;
 
 export default partsSlice.reducer;
