@@ -1,16 +1,95 @@
-# React + Vite
+# Auto Parts Search
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Веб-приложение для поиска автозапчастей по артикулу с выбором производителя и просмотром предложений и аналогов.
 
-Currently, two official plugins are available:
+## Технологии
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React
+- JavaScript
+- Redux Toolkit
+- React Redux
+- Bootstrap
+- Vite
+- Node.js
+- Express
 
-## React Compiler
+## Функциональность
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Поиск производителей по артикулу
+- Выбор производителя
+- Отображение предложений и аналогов запчастей
+- Просмотр цен и остатков на складах
+- Обработка состояний загрузки и ошибок
+- Отображение пустых результатов
+- Адаптивная таблица предложений
 
-## Expanding the ESLint configuration
+## Запуск проекта
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Для запуска необходим Node.js и npm.
+
+1. Клонировать репозиторий:
+
+   git clone https://github.com/Katyusha0901/auto-parts-search.git
+
+2. Перейти в папку проекта:
+
+   cd auto-parts-search
+
+3. Установить зависимости:
+
+   npm install
+
+4. Запустить приложение:
+
+   npm start
+
+После запуска:
+
+- Frontend: http://localhost:5173
+- Backend: http://localhost:3001
+
+## Демонстрационные артикулы
+
+| Артикул | Производители      |
+| ------- | ------------------ |
+| ABC123  | Bosch, Valeo, MANN |
+| XYZ789  | Toyota, Denso      |
+| TEST456 | NGK, Bosch         |
+
+## API
+
+Frontend взаимодействует с Express-сервером через HTTP-запросы.
+
+### GET /api/brands
+
+Получение производителей по артикулу.
+
+Пример:
+
+GET /api/brands?article=ABC123
+
+### GET /api/offers
+
+Получение предложений и аналогов по артикулу и производителю.
+
+Пример:
+
+GET /api/offers?article=ABC123&brand=Bosch
+
+## Особенности реализации
+
+Приложение разработано с учётом документации API Favorit Parts.
+
+Поскольку API-ключ недоступен, Express-сервер возвращает демонстрационные данные, структура которых адаптирована под используемые поля API.
+
+HTTP-запросы между frontend и backend выполняются реально. Интеграция с внешним API Favorit Parts не проверялась.
+
+Для управления состоянием используется Redux Toolkit.
+
+Логика запросов и преобразования данных вынесена в отдельные функции.
+
+## Сборка
+
+Для создания production-сборки frontend:
+
+npm run build

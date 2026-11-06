@@ -1,33 +1,57 @@
 export const fetchBrands = async (article) => {
-  const mockBrands = ["Bosch", "MANN", "Valeo"];
+  const params = new URLSearchParams({ article });
 
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  const response = await fetch(`/api/brands?${params}`);
+  const data = await response.json();
 
-  return mockBrands;
-  // throw new Error("Сервер недоступен");
+  if (!response.ok) {
+    throw new Error(data.error || "Не удалось получить производителей");
+  }
+
+  return extractBrands(data.goods);
 };
 
 export const fetchOffers = async (article, brand) => {
-  const mockOffers = [
-    {
-      id: 1,
-      name: "Масляный фильтр",
-      brand: "Bosch",
-      price: 850,
-      stock: 12,
-    },
-    {
-      id: 2,
-      name: "Воздушный фильтр",
-      brand: "Bosch",
-      price: 1200,
-      stock: 5,
-    },
-  ];
+  const params = new URLSearchParams({ article, brand });
 
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  const response = await fetch(`/api/offers?${params}`);
+  const data = await response.json();
 
-  return mockOffers;
-  //   return [];
-  //   throw new Error("Ошибка загрузки предложений");
+  if (!response.ok) {
+    throw new Error(data.error || "Не удалось получить предложения");
+  }
+
+  return extractAllOffers(data.goods);
+};
+
+export const extractBrands = (goods) => {
+  return [...new Set(goods.map((item) => item.brand))];
+};
+
+export const extractOffers = (goods) => {
+  return goods.flatMap((item) =>
+    (item.warehouses ?? []).map((warehouse, index) => ({
+      id: `${item.goodsID}-${warehouse.id ?? index}`,
+      name: item.name,
+      brand: item.brand,
+      price: warehouse.price ?? null,
+      stock: warehouse.stock ?? null,
+    })),
+  );
+};
+
+export const extractAllOffers = (goods) => {
+  const originalOffers = extractOffers(goods).map((offer) => ({
+    ...offer,
+    isAnalogue: false,
+  }));
+
+  const analogues = goods.flatMap((item) => item.analogues ?? []);
+
+  const analogueOffers = extractOffers(analogues).map((offer) => ({
+    ...offer,
+    isAnalogue: true,
+  }));
+
+  return [...originalOffers, ...analogueOffers];
 };

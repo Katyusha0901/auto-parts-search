@@ -7,6 +7,7 @@ import {
   setBrandsLoading,
   setBrandsError,
   setOffersError,
+  setOffersLoaded,
 } from "../partsSlice";
 import { fetchBrands } from "../partsApi";
 
@@ -18,8 +19,9 @@ function PartSearch() {
 
   const handleSearch = async () => {
     dispatch(setSelectedBrand(null));
-    dispatch(setOffers([]));
     dispatch(setBrands([]));
+    dispatch(setOffers([]));
+    dispatch(setOffersLoaded(false));
     dispatch(setBrandsError(null));
     dispatch(setOffersError(null));
     dispatch(setBrandsLoading(true));
@@ -28,8 +30,7 @@ function PartSearch() {
       const brands = await fetchBrands(article);
       dispatch(setBrands(brands));
     } catch (error) {
-      dispatch(setBrandsError("Не удалось загрузить производителей"));
-      console.error(error);
+      dispatch(setBrandsError(error.message));
     } finally {
       dispatch(setBrandsLoading(false));
     }
@@ -57,9 +58,7 @@ function PartSearch() {
       </div>
 
       {brandsError && (
-        <div className="alert alert-danger mt-3" role="alert">
-          {brandsError}
-        </div>
+        <div className="alert alert-danger mt-3">{brandsError}</div>
       )}
     </div>
   );
