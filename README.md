@@ -1,8 +1,10 @@
 # Auto Parts Search
 
-Веб-приложение для поиска автозапчастей по артикулу с выбором производителя и просмотром предложений и аналогов.
+A web application for searching auto parts by part number, selecting a manufacturer, and viewing available offers and compatible alternatives.
 
-## Технологии
+## Tech Stack
+
+**Frontend**
 
 - React
 - JavaScript
@@ -10,86 +12,150 @@
 - React Redux
 - Bootstrap
 - Vite
+
+**Backend**
+
 - Node.js
 - Express
 
-## Функциональность
+## Features
 
-- Поиск производителей по артикулу
-- Выбор производителя
-- Отображение предложений и аналогов запчастей
-- Просмотр цен и остатков на складах
-- Обработка состояний загрузки и ошибок
-- Отображение пустых результатов
-- Адаптивная таблица предложений
+- Search for auto parts by part number
+- Display available manufacturers
+- Select a manufacturer to view matching offers
+- Display alternative parts (analogues)
+- View prices and stock availability
+- Handle loading, error, and empty states
+- Responsive offers table
+- State management with Redux Toolkit
 
-## Запуск проекта
+## Getting Started
 
-Для запуска необходим Node.js и npm.
+### Prerequisites
 
-1. Клонировать репозиторий:
+- Node.js
+- npm
 
+### Installation
+
+1. Clone the repository:
+
+   ```bash
    git clone https://github.com/Katyusha0901/auto-parts-search.git
+   ```
 
-2. Перейти в папку проекта:
+2. Navigate to the project directory:
 
+   ```bash
    cd auto-parts-search
+   ```
 
-3. Установить зависимости:
+3. Install dependencies:
 
+   ```bash
    npm install
+   ```
 
-4. Запустить приложение:
+4. Start the application:
 
+   ```bash
    npm start
+   ```
 
-После запуска:
+The command starts both the React development server and the Express backend.
+
+**Application URLs:**
 
 - Frontend: http://localhost:5173
 - Backend: http://localhost:3001
 
-## Демонстрационные артикулы
+## Demo Part Numbers
 
-| Артикул | Производители      |
-| ------- | ------------------ |
-| ABC123  | Bosch, Valeo, MANN |
-| XYZ789  | Toyota, Denso      |
-| TEST456 | NGK, Bosch         |
+The following part numbers can be used to test the application:
 
-## API
+| Part Number | Available Manufacturers |
+| ----------- | ----------------------- |
+| ABC123      | Bosch, Valeo, MANN      |
+| XYZ789      | Toyota, Denso           |
+| TEST456     | NGK, Bosch              |
 
-Frontend взаимодействует с Express-сервером через HTTP-запросы.
+## API Endpoints
+
+The React frontend communicates with the Express backend using HTTP requests.
 
 ### GET /api/brands
 
-Получение производителей по артикулу.
+Returns available manufacturers for a given part number.
 
-Пример:
+Example:
 
+```http
 GET /api/brands?article=ABC123
+```
 
 ### GET /api/offers
 
-Получение предложений и аналогов по артикулу и производителю.
+Returns matching offers and alternative parts for the selected manufacturer.
 
-Пример:
+Example:
 
+```http
 GET /api/offers?article=ABC123&brand=Bosch
+```
 
-## Особенности реализации
+## Architecture
 
-Приложение разработано с учётом документации API Favorit Parts.
+The application follows a client-server architecture:
 
-Поскольку API-ключ недоступен, Express-сервер возвращает демонстрационные данные, структура которых адаптирована под используемые поля API.
+- **React** handles the user interface.
+- **Redux Toolkit** manages application state, including search results, selected manufacturer, loading states, and errors.
+- **Express** provides REST API endpoints for retrieving manufacturers and offers.
+- **Data transformation functions** normalize API responses for display in the UI.
 
-HTTP-запросы между frontend и backend выполняются реально. Интеграция с внешним API Favorit Parts не проверялась.
+## Favorit Parts API
 
-Для управления состоянием используется Redux Toolkit.
+The application was developed with reference to the Favorit Parts API documentation.
 
-Логика запросов и преобразования данных вынесена в отдельные функции.
+Since an API key was not provided, the Express backend currently serves mock data structured around the relevant API fields.
 
-## Сборка
+HTTP requests between the frontend and backend are fully implemented and functional.
 
-Для создания production-сборки frontend:
+Integration with the external Favorit Parts API has not been tested.
 
+API documentation:
+https://lk.favorit-parts.ru/static/wsprice.pdf
+
+## Production Build
+
+To generate a production build of the frontend, run:
+
+```bash
 npm run build
+```
+
+The generated files will be available in the `dist` directory.
+
+## Project Structure
+
+```text
+auto-parts-search/
+├── server/
+│   ├── index.js
+│   └── mockData.js
+├── src/
+│   ├── app/
+│   │   └── store.js
+│   ├── features/
+│   │   └── parts/
+│   │       ├── components/
+│   │       │   ├── PartSearch.jsx
+│   │       │   ├── BrandList.jsx
+│   │       │   └── OffersList.jsx
+│   │       ├── partsApi.js
+│   │       └── partsSlice.js
+│   ├── App.jsx
+│   └── main.jsx
+├── package.json
+├── vite.config.js
+└── README.md
+```
